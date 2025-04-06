@@ -1,0 +1,101 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 import \{ useState \} from "react";\
+import \{ Card, CardContent \} from "@/components/ui/card";\
+import \{ Button \} from "@/components/ui/button";\
+import \{ Input \} from "@/components/ui/input";\
+import \{ Calendar \} from "@/components/ui/calendar";\
+import \{ format \} from "date-fns-jalali";\
+\
+export default function ReservationSystem() \{\
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();\
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);\
+  const [name, setName] = useState("");\
+  const [phone, setPhone] = useState("");\
+  const [confirmed, setConfirmed] = useState(false);\
+\
+  const availableTimes = [\
+    "09:00",\
+    "10:00",\
+    "11:00",\
+    "14:00",\
+    "15:00",\
+    "16:00",\
+  ];\
+\
+  const handleSubmit = () => \{\
+    if (selectedDate && selectedTime && name && phone) \{\
+      console.log(\{ date: selectedDate, time: selectedTime, name, phone \});\
+      setConfirmed(true);\
+      setSelectedDate(undefined);\
+      setSelectedTime(null);\
+      setName("");\
+      setPhone("");\
+    \}\
+  \};\
+\
+  return (\
+    <div className="max-w-xl mx-auto p-4 space-y-6">\
+      <Card>\
+        <CardContent className="space-y-4 pt-6">\
+          <h2 className="text-xl font-bold">\uc0\u1585 \u1586 \u1585 \u1608  \u1608 \u1602 \u1578  \u1605 \u1588 \u1575 \u1608 \u1585 \u1607 </h2>\
+\
+          <Calendar\
+            mode="single"\
+            selected=\{selectedDate\}\
+            onSelect=\{setSelectedDate\}\
+            className="rounded-md border"\
+          />\
+\
+          \{selectedDate && (\
+            <div className="space-y-2">\
+              <p className="font-medium">\
+                \uc0\u1586 \u1605 \u1575 \u1606 \u8204 \u1607 \u1575 \u1740  \u1570 \u1586 \u1575 \u1583  \u1576 \u1585 \u1575 \u1740  \{format(selectedDate, "yyyy/MM/dd")\}:\
+              </p>\
+              <div className="flex flex-wrap gap-2">\
+                \{availableTimes.map((time) => (\
+                  <Button\
+                    key=\{time\}\
+                    variant=\{selectedTime === time ? "default" : "outline"\}\
+                    onClick=\{() => setSelectedTime(time)\}\
+                  >\
+                    \{time\}\
+                  </Button>\
+                ))\}\
+              </div>\
+            </div>\
+          )\}\
+\
+          <div className="space-y-2">\
+            <Input\
+              placeholder="\uc0\u1606 \u1575 \u1605  \u1608  \u1606 \u1575 \u1605  \u1582 \u1575 \u1606 \u1608 \u1575 \u1583 \u1711 \u1740 "\
+              value=\{name\}\
+              onChange=\{(e) => setName(e.target.value)\}\
+            />\
+            <Input\
+              placeholder="\uc0\u1588 \u1605 \u1575 \u1585 \u1607  \u1578 \u1605 \u1575 \u1587 "\
+              value=\{phone\}\
+              onChange=\{(e) => setPhone(e.target.value)\}\
+            />\
+          </div>\
+\
+          <Button onClick=\{handleSubmit\} className="w-full">\
+            \uc0\u1579 \u1576 \u1578  \u1585 \u1586 \u1585 \u1608 \
+          </Button>\
+\
+          \{confirmed && (\
+            <p className="text-green-600 font-semibold text-center pt-2">\
+              \uc0\u1585 \u1586 \u1585 \u1608  \u1576 \u1575  \u1605 \u1608 \u1601 \u1602 \u1740 \u1578  \u1579 \u1576 \u1578  \u1588 \u1583 !\
+            </p>\
+          )\}\
+        </CardContent>\
+      </Card>\
+    </div>\
+  );\
+\}\
+}
